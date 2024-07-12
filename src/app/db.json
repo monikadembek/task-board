@@ -1,0 +1,30 @@
+{
+  "boards": [
+    { "id": 1, "name": "Task board project" },
+    { "id": 2, "name": "Angular upskilling" }
+  ],
+  "lists": [
+    { "id": 1, "boardId": 1, "name": "To do" },
+    { "id": 2, "boardId": 1, "name": "In progress" },
+    { "id": 3, "boardId": 1, "name": "Under review" },
+    { "id": 4, "boardId": 1, "name": "Done" }
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "listId": 2,
+      "title": "Angular 18 template",
+      "description": "Prepare Angular template with standalone components and EsLint and Prettier",
+      "creationDate": "11-07-2024",
+      "priority": "high"
+    },
+    {
+      "id": 2,
+      "listId": 1,
+      "title": "Setup Json Server",
+      "description": "Add and configure JSON Server",
+      "creationDate": "11-07-2024",
+      "priority": "high"
+    }
+  ]
+}
