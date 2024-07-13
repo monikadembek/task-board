@@ -1,0 +1,35 @@
+@import '../../../../../styles/utils';
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: $black;
+  padding: 0 5px;
+}
+
+.list {
+  &__item {
+    padding: 8px 0;
+    border-top: 1px solid $light-sea-green;
+
+    &:last-child {
+      border-bottom: none;
+      border-bottom: 1px solid $light-sea-green;
+    }
+  }
+
+  &__link {
+    color: black;
+    color: $dark-green;
+    padding: 0 5px;
+
+    &:hover {
+      color: $light-sea-green;
+    }
+  }
+}
+
+.active-link {
+  font-weight: bold;
+}
