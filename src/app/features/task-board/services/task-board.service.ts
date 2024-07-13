@@ -17,6 +17,10 @@ export class TaskBoardService {
     return this.http.get<Board[]>(this.boardsEndpoint);
   }
 
+  getBoardById(boardId: number): Observable<Board> {
+    return this.http.get<Board>(`${this.boardsEndpoint}/${boardId}`);
+  }
+
   getListsForBoard(boardId: number): Observable<List[]> {
     return this.http.get<List[]>(this.listsEndpoint).pipe(
       map((items: List[]) => {
