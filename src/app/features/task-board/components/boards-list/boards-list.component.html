@@ -1,0 +1,13 @@
+<h3 class="title">Your Boards</h3>
+<ul class="list">
+  @for (board of boards$ | async; track board.id) {
+    <li class="list__item" routerLinkActive="active-link">
+      <a
+        [routerLink]="[board.id, removeSpaces(board.name)]"
+        class="list__link"
+        >{{ board.name }}</a
+      >
+    </li>
+  }
+</ul>
+<button class="button">Add board</button>
