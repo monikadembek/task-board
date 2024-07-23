@@ -7,6 +7,7 @@ export interface List {
   id: number;
   boardId: number;
   name: string;
+  cards?: Card[];
 }
 
 export interface Card {
@@ -16,4 +17,5 @@ export interface Card {
   description: string;
   creationDate: Date;
   priority: string;
+  image?: string;
 }

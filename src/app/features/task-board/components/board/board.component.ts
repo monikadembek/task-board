@@ -1,25 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskBoardService } from '../../services/task-board.service';
 import { ActivatedRoute, Params } from '@angular/router';
-import { map, switchMap } from 'rxjs';
-import { Board } from '../../models/task-board';
+import { filter, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
+import { Board, List } from '../../models/task-board';
 import { AsyncPipe } from '@angular/common';
+import { ListComponent } from '../list/list.component';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, ListComponent],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
 })
 export class BoardComponent implements OnInit {
   boardId!: number;
   board!: Board;
+  lists$: Observable<List[]> = of([]);
+  boardChanged$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private taskBoardService: TaskBoardService,
     private route: ActivatedRoute
   ) {
+    this.getCurrentBoard();
+  }
+
+  ngOnInit(): void {
+    this.listenToBoardChange();
+  }
+
+  private getCurrentBoard(): void {
     this.route.params
       .pipe(
         map((params: Params) => {
@@ -33,18 +44,24 @@ export class BoardComponent implements OnInit {
       .subscribe((board: Board) => {
         console.log('current board: ', board);
         this.board = board;
+        this.boardChanged$.next(true);
       });
   }
 
-  ngOnInit(): void {
-    this.taskBoardService
-      .getListsForBoard(this.boardId)
-      .subscribe(data =>
-        console.log('returned lists for board: ', this.board, '| ', data)
-      );
+  private listenToBoardChange(): void {
+    this.lists$ = this.boardChanged$.pipe(
+      filter((shouldGetLists: boolean) => shouldGetLists === true),
+      switchMap(() => {
+        return this.getListsForCurrentBoard(this.boardId);
+      })
+    );
+  }
 
-    // this.taskBoardService
-    //   .getCardsForList(2)
-    //   .subscribe(data => console.log('returned cards: ', data));
+  private getListsForCurrentBoard(boardId: number): Observable<List[]> {
+    return this.taskBoardService.getListsForBoard(boardId).pipe(
+      tap((lists: List[]) => {
+        console.log('returned lists for board: ', this.board, '| ', lists);
+      })
+    );
   }
 }
